@@ -2753,7 +2753,7 @@ FC_Rect FC_GetBounds(FC_Font* font, float x, float y, FC_AlignEnum align, FC_Sca
         return result;
 
     // Create a temp buffer while GetWidth and GetHeight use fc_buffer.
-    char* temp = (char*)malloc(fc_buffer_size);
+    static char temp[fc_buffer_size];
     FC_EXTRACT_VARARGS(temp, formatted_text);
 
     result.w = FC_GetWidth(font, "%s", temp) * scale.x;
@@ -2772,8 +2772,6 @@ FC_Rect FC_GetBounds(FC_Font* font, float x, float y, FC_AlignEnum align, FC_Sca
         default:
             break;
     }
-
-    free(temp);
 
     return result;
 }
