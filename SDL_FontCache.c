@@ -73,7 +73,7 @@ __inline int c99_snprintf(char *outBuf, size_t size, const char *format, ...)
 { \
     va_list lst; \
     va_start(lst, start_args); \
-    vsnprintf(buffer, fc_buffer_size, start_args, lst); \
+    vsnprintf(buffer, FC_BUFFER_SIZE, start_args, lst); \
     va_end(lst); \
 }
 
@@ -158,8 +158,8 @@ static char* replace_concat(char** a, const char* b)
 static unsigned int fc_tab_width = 4;
 
 // Shared buffer for variadic text
-static char* fc_buffer = NULL;
-static unsigned int fc_buffer_size = 1024;
+#define FC_BUFFER_SIZE 1024
+static char fc_buffer[FC_BUFFER_SIZE];
 
 static Uint8 fc_has_render_target_support = 0;
 
@@ -817,24 +817,6 @@ void FC_SetLoadingString(FC_Font* font, const char* string)
 }
 
 
-unsigned int FC_GetBufferSize(void)
-{
-    return fc_buffer_size;
-}
-
-void FC_SetBufferSize(unsigned int size)
-{
-    free(fc_buffer);
-    if(size > 0)
-    {
-        fc_buffer_size = size;
-        fc_buffer = (char*)malloc(fc_buffer_size);
-    }
-    else
-        fc_buffer = (char*)malloc(fc_buffer_size);
-}
-
-
 unsigned int FC_GetTabWidth(void)
 {
     return fc_tab_width;
@@ -900,9 +882,6 @@ static void FC_Init(FC_Font* font)
 
 	if (font->loading_string == NULL)
 		font->loading_string = FC_GetStringASCII();
-
-    if(fc_buffer == NULL)
-        fc_buffer = (char*)malloc(fc_buffer_size);
 }
 
 static Uint8 FC_GrowGlyphCache(FC_Font* font)
@@ -1478,9 +1457,6 @@ void FC_FreeFont(FC_Font* font)
 
         free(ASCII_LATIN_1_STRING);
         ASCII_LATIN_1_STRING = NULL;
-
-        free(fc_buffer);
-        fc_buffer = NULL;
     }
 }
 
@@ -2753,7 +2729,7 @@ FC_Rect FC_GetBounds(FC_Font* font, float x, float y, FC_AlignEnum align, FC_Sca
         return result;
 
     // Create a temp buffer while GetWidth and GetHeight use fc_buffer.
-    static char temp[fc_buffer_size];
+    static char temp[FC_BUFFER_SIZE];
     FC_EXTRACT_VARARGS(temp, formatted_text);
 
     result.w = FC_GetWidth(font, "%s", temp) * scale.x;
