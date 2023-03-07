@@ -42,13 +42,3 @@ set(FontCache_INCLUDE_DIR ${FontCache_SOURCE_DIR})
 if(FontCache_BUILD_TESTS)
   add_subdirectory(test)
 endif()
-
-# add_executable(FontCache-tests test/main.c)
-
-# target_include_directories( FontCache-tests PRIVATE
-# ${CMAKE_CURRENT_SOURCE_DIR} ${SDL2_INCLUDE_DIRS} ${SDL2_TTF_INCLUDE_DIRS})
-
-# target_link_libraries(FontCache-tests PRIVATE FontCache)
-
-# file(COPY test/utf8_sample.txt DESTINATION ${CMAKE_BINARY_DIR}) file(COPY
-# test/fonts/FreeSans.ttf DESTINATION ${CMAKE_BINARY_DIR}/fonts)
