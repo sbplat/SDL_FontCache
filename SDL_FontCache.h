@@ -215,12 +215,6 @@ void U8_strdel(char* string, int position);
 /*! Sets the string from which to load the initial glyphs.  Use this if you need upfront loading for any reason (such as lack of render-target support). */
 void FC_SetLoadingString(FC_Font* font, const char* string);
 
-/*! Returns the size of the internal buffer which is used for unpacking variadic text data.  This buffer is shared by all FC_Fonts. */
-unsigned int FC_GetBufferSize(void);
-
-/*! Changes the size of the internal buffer which is used for unpacking variadic text data.  This buffer is shared by all FC_Fonts. */
-void FC_SetBufferSize(unsigned int size);
-
 /*! Returns the width of a single horizontal tab in multiples of the width of a space (default: 4) */
 unsigned int FC_GetTabWidth(void);
 
