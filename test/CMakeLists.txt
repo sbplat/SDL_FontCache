@@ -1,6 +1,11 @@
 add_executable(FontCacheTest main.c)
 
-target_link_libraries(FontCacheTest FontCache)
+set(PLATFORM_DEPENDENT_LIBS "")
+if(UNIX)
+  set(PLATFORM_DEPENDENT_LIBS ${PLATFORM_DEPENDENT_LIBS} m)
+endif()
+
+target_link_libraries(FontCacheTest FontCache ${PLATFORM_DEPENDENT_LIBS})
 
 target_include_directories(FontCacheTest PRIVATE ${FontCache_INCLUDE_DIRS})
 
